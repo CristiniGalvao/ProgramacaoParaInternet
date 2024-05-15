@@ -18,4 +18,7 @@ public class UsuarioService {
     public Usuario save(Usuario usuario){
         return this.usuarioRepository.save(usuario);
     }
+    public Usuario validarUsuario(String login, String senha){
+        return this.usuarioRepository.findByLoginAndSenha(login,senha);
+    }
 }
