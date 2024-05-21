@@ -1,5 +1,7 @@
 package br.unipar.programacaointernet.clinica.controller;
 
+import br.unipar.programacaointernet.clinica.model.Usuario;
+import br.unipar.programacaointernet.clinica.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginWebController {
-
+    private final UsuarioService usuarioService;
+    public LoginWebController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
     @GetMapping("/hello~world")
     public String helloWorld(@RequestParam(value = "name",defaultValue = "World") String name){
         return "Hello " + name + "!";
@@ -26,6 +31,7 @@ public class LoginWebController {
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         HttpSession session, Model model){
+        Usuario usuario = usuarioService.validarUsuario(username, password);
         if(username.equals("Lucius") && password.equals("123")){
             //se nosso usuario tiver válido
             session.setAttribute("usuarioLogado",username);
